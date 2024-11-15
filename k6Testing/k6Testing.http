@@ -1,6 +1,10 @@
-@k6Testing_HostAddress = http://localhost:5251
+@k6Testing_HostAddress = http://localhost:54388
 
-GET {{k6Testing_HostAddress}}/weatherforecast/
+GET {{k6Testing_HostAddress}}/api/todos
 Accept: application/json
 
 ###
+
+@todoId = 32
+GET {{k6Testing_HostAddress}}/api/todos/{{todoId}}
+Accept: application/json
