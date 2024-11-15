@@ -1,0 +1,6 @@
+@k6Testing_HostAddress = http://localhost:5251
+
+GET {{k6Testing_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

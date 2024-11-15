@@ -1,0 +1,39 @@
+services:
+  k6testing:
+    image: ${DOCKER_REGISTRY-}k6testing
+    build:
+      context: .
+      dockerfile: k6Testing/Dockerfile
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - inner_network
+ 
+  postgresql:
+    image: postgres:latest
+    container_name: postgres_node
+    environment:
+      - PGUSER=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: unless-stopped 
+    networks: 
+      - inner_network
+    healthcheck:
+      test: pg_isready
+      interval: 5s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+networks:
+  inner_network:
+    name: inner_network
+
+volumes:
+  db_data:
+    driver: local
